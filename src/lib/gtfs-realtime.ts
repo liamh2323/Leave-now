@@ -13,9 +13,13 @@ export async function fetchAndCacheTripUpdates(
   const supabase = createServerClient()
 
   // 1. Fetch the GTFS-RT TripUpdates protobuf
-  const res = await fetch(feedUrl, {
+  // NTA's certificate chain isn't trusted by Node's default CA bundle,
+  // so we use undici with rejectUnauthorized: false for this request only.
+  const { fetch: undiciFetch, Agent } = await import('undici')
+  const agent = new Agent({ connect: { rejectUnauthorized: false } })
+  const res = await undiciFetch(feedUrl, {
     headers: { 'x-api-key': apiKey },
-    cache: 'no-store',
+    dispatcher: agent,
   })
   if (!res.ok) {
     throw new Error(`GTFS-RT fetch failed: ${res.status} ${res.statusText}`)
