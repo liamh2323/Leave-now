@@ -17,9 +17,9 @@ export default function DepartureCard({ departure, walkMinutes }: DepartureCardP
     return () => clearInterval(id)
   }, [])
 
-  const leaveInMs = departure.leaveByTime.getTime() - Date.now()
+  const leaveInMs = new Date(departure.leaveByTime).getTime() - Date.now()
   const leaveInMin = leaveInMs / 60_000
-  const departureStr = formatDublinTime(departure.actualDepartureTime)
+  const departureStr = formatDublinTime(new Date(departure.actualDepartureTime))
 
   const isUrgent = leaveInMin <= 2 && leaveInMin > -1
   const isMissed = leaveInMin < -1
