@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --app --tailwind --src-dir --no-git --no-eslint --import-alias \"@/*\" --name \"leave-now\")",
+      "Bash(npx create-next-app@latest leave-now-app --typescript --app --tailwind --src-dir --no-git --no-eslint --import-alias \"@/*\")",
+      "Bash(npm install *)",
+      "Bash(npx tsx *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
