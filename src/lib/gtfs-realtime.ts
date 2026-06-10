@@ -14,17 +14,33 @@ export async function fetchAndCacheTripUpdates(
 
   // 1. Fetch the GTFS-RT TripUpdates protobuf
   // NTA's certificate chain isn't trusted by Node's default CA bundle,
-  // so we use undici with rejectUnauthorized: false for this request only.
-  const { fetch: undiciFetch, Agent } = await import('undici')
-  const agent = new Agent({ connect: { rejectUnauthorized: false } })
-  const res = await undiciFetch(feedUrl, {
-    headers: { 'x-api-key': apiKey },
-    dispatcher: agent,
+  // so we use the https module with rejectUnauthorized: false for this request only.
+  const https = await import('https')
+  const buffer = await new Promise<ArrayBuffer>((resolve, reject) => {
+    const url = new URL(feedUrl)
+    const req = https.default.request(
+      {
+        hostname: url.hostname,
+        path: url.pathname + url.search,
+        method: 'GET',
+        headers: { 'x-api-key': apiKey },
+        rejectUnauthorized: false,
+      },
+      (res) => {
+        if (res.statusCode !== 200) {
+          reject(new Error(`GTFS-RT fetch failed: ${res.statusCode}`))
+          res.resume()
+          return
+        }
+        const chunks: Buffer[] = []
+        res.on('data', (chunk: Buffer) => chunks.push(chunk))
+        res.on('end', () => resolve(Buffer.concat(chunks).buffer))
+        res.on('error', reject)
+      }
+    )
+    req.on('error', reject)
+    req.end()
   })
-  if (!res.ok) {
-    throw new Error(`GTFS-RT fetch failed: ${res.status} ${res.statusText}`)
-  }
-  const buffer = await res.arrayBuffer()
 
   // 2. Decode the protobuf
   const { transit_realtime } = await import('gtfs-realtime-bindings')
