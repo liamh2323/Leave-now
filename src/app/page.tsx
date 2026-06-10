@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase'
 import DepartureList from '@/components/DepartureList'
 
+export const dynamic = 'force-dynamic'
+
 // Fetch user stops server-side so the initial render has data
 async function getUserStops() {
   try {
