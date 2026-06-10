@@ -1,12 +1,3 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/gtfs-realtime",
-      "schedule": "* * * * *"
-    },
-    {
-      "path": "/api/cron/notify",
-      "schedule": "* * * * *"
-    }
-  ]
+  "buildCommand": "next build --webpack"
 }
