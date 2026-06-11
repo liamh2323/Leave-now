@@ -12,7 +12,8 @@
       "WebFetch(domain:www.npmjs.com)",
       "Bash(npm show *)",
       "Bash(vercel build *)",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "Bash(node *)"
     ]
   }
 }
