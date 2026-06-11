@@ -1,39 +1,23 @@
-// Stage 3: push notification delivery via web-push (VAPID).
-// Run `npm install web-push && npm install -D @types/web-push` before using.
-// Generate keys with: npx web-push generate-vapid-keys
-
+import webpush from 'web-push'
 import type { PushPayload } from '@/types/gtfs'
 
-// Lazy-load web-push so Stage 1/2 don't fail if it's not installed yet.
-async function getWebPush() {
-  try {
-    const webpush = await import('web-push')
-    const mod = webpush.default ?? webpush
-    mod.setVapidDetails(
-      process.env.VAPID_SUBJECT!,
-      process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-      process.env.VAPID_PRIVATE_KEY!
-    )
-    return mod
-  } catch {
-    throw new Error(
-      'web-push is not installed. Run: npm install web-push && npm install -D @types/web-push'
-    )
-  }
-}
+webpush.setVapidDetails(
+  process.env.VAPID_SUBJECT!,
+  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+  process.env.VAPID_PRIVATE_KEY!
+)
 
 export async function sendPush(
   subscription: { endpoint: string; p256dh: string; auth: string },
   payload: PushPayload
 ): Promise<void> {
-  const webpush = await getWebPush()
   await webpush.sendNotification(
     {
       endpoint: subscription.endpoint,
       keys: { p256dh: subscription.p256dh, auth: subscription.auth },
     },
     JSON.stringify(payload),
-    { TTL: 300 } // 5 minute time-to-live — irrelevant after the bus leaves
+    { TTL: 300 }
   )
 }
 
