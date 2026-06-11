@@ -1,16 +1,15 @@
 import webpush from 'web-push'
 import type { PushPayload } from '@/types/gtfs'
 
-webpush.setVapidDetails(
-  process.env.VAPID_SUBJECT!,
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
-)
-
 export async function sendPush(
   subscription: { endpoint: string; p256dh: string; auth: string },
   payload: PushPayload
 ): Promise<void> {
+  webpush.setVapidDetails(
+    process.env.VAPID_SUBJECT!,
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!
+  )
   await webpush.sendNotification(
     {
       endpoint: subscription.endpoint,
@@ -36,7 +35,6 @@ export async function broadcastPush(payload: PushPayload): Promise<void> {
       try {
         await sendPush(sub, payload)
       } catch (err: any) {
-        // 410 Gone: subscription has been revoked — clean it up
         if (err?.statusCode === 410) {
           await supabase
             .from('push_subscriptions')
