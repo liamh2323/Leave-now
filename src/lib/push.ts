@@ -7,8 +7,7 @@ import type { PushPayload } from '@/types/gtfs'
 // Lazy-load web-push so Stage 1/2 don't fail if it's not installed yet.
 async function getWebPush() {
   try {
-    // @ts-ignore — web-push installed in Stage 3: npm install web-push @types/web-push
-    const webpush = await import(/* webpackIgnore: true */ 'web-push')
+    const webpush = await import('web-push')
     const mod = webpush.default ?? webpush
     mod.setVapidDetails(
       process.env.VAPID_SUBJECT!,

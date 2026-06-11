@@ -5,7 +5,14 @@
       "Bash(npx create-next-app@latest leave-now-app --typescript --app --tailwind --src-dir --no-git --no-eslint --import-alias \"@/*\")",
       "Bash(npm install *)",
       "Bash(npx tsx *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "WebFetch(domain:leave-now-theta.vercel.app)",
+      "WebFetch(domain:leave-899d53pst-hayesl7-9805s-projects.vercel.app)",
+      "Bash(node_modules/.bin/next *)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm show *)",
+      "Bash(vercel build *)",
+      "Bash(npm list *)"
     ]
   }
 }
