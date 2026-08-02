@@ -18,15 +18,8 @@ Instead of asking *"When does my bus leave?"*, Leave Now answers the more useful
 - ⏰ "Leave in X minutes" countdown
 - 📱 Installable Progressive Web App (PWA)
 - 🔔 Push notification support
-- ⚡ Fast Next.js interface
-- ☁️ Supabase backend for storing user settings
 
 ---
-
-## Screenshots
-
-> Screenshots coming soon.
-
 ---
 
 ## Tech Stack
@@ -172,43 +165,6 @@ src/
 I wanted a faster way to know **when to leave**, rather than checking departure boards and doing the mental maths myself.
 
 Leave Now combines live transport data with your walking time so you know exactly when it's time to head out.
-
----
-
-## Contributing
-
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a feature branch
-
-```bash
-git checkout -b feature/my-feature
-```
-
-3. Commit your changes
-
-```bash
-git commit -m "Add awesome feature"
-```
-
-4. Push your branch
-
-```bash
-git push origin feature/my-feature
-```
-
-5. Open a Pull Request.
-
----
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-## Author
 
 **Liam H**
 
